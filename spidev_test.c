@@ -1,4 +1,22 @@
 /*
+ * spi-ade7953
+ * 
+ * Copyright (c) 2014 takurx@github <taku3wzr@gmail.com>
+ * 
+ * This program is to use SPI bus for ADE7953 on Raspberry Pi.
+ * 
+ * SPI bus : Serial Peripheral Interface bus
+ * ADE7953 : is a high accuracy electrical energy measurement IC.
+ * product by Analog Devices, Inc.
+ * 
+ * compile ex. :
+ * $ gcc spidev_test.c -o spidev_test
+ * 
+ * execute option ex. :
+* $ sudo ./spidev_test -D /dev/spidev0.0 --speed=3600000
+ * 
+ * SPI testing utility is used as reference.
+ * 
  * SPI testing utility (using spidev driver)
  *
  * Copyright (c) 2007  MontaVista Software, Inc.
@@ -29,7 +47,8 @@ static void pabort(const char *s)
 	abort();
 }
 
-static const char *device = "/dev/spidev1.1";
+// const char *device = "/dev/spidev1.1";
+static const char *device = "/dev/spidev0.0";
 static uint8_t mode;
 static uint8_t bits = 8;
 static uint32_t speed = 500000;
@@ -49,11 +68,11 @@ static void transfer(int fd)
 		0xF0, 0x0D,
 	};
 */
-	//uint8_t tx[] = { 0x01, 0x02, 0x80, 0x00, 0x00, 0x00 }; //0x102 Conf. Reg.
-	//uint8_t tx[] = { 0x03, 0x16, 0x80, 0x00, 0x00, 0x00 }; //0x316 instaneous Amp. A
-	//uint8_t tx[] = { 0x03, 0x17, 0x80, 0x00, 0x00, 0x00 }; //0x317 instaneous Amp. B
-	//uint8_t tx[] = { 0x03, 0x18, 0x80, 0x00, 0x00, 0x00 }; //0x318 instaneous Vol.
-	uint8_t tx[] = { 0x03, 0x1A, 0x80, 0x00, 0x00, 0x00 }; //0x31A RMS Amp. A
+	//uint8_t tx[] = { 0x01, 0x02, 0x80, 0x00, 0x00, 0x00 }; //140327 0x102 Conf. Reg.
+	//uint8_t tx[] = { 0x03, 0x16, 0x80, 0x00, 0x00, 0x00 }; //140327 0x316 instaneous Amp. A
+	//uint8_t tx[] = { 0x03, 0x17, 0x80, 0x00, 0x00, 0x00 }; //140327 0x317 instaneous Amp. B
+	//uint8_t tx[] = { 0x03, 0x18, 0x80, 0x00, 0x00, 0x00 }; //140327 0x318 instaneous Vol.
+	uint8_t tx[] = { 0x03, 0x1A, 0x80, 0x00, 0x00, 0x00 }; //140327 0x31A RMS Amp. A
 
 	uint8_t rx[ARRAY_SIZE(tx)] = {0, };
 	struct spi_ioc_transfer tr = {
